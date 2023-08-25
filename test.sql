@@ -126,3 +126,28 @@ select ename freom emp where empno=1 union select ename from emp where empno=2
 -- union减少笛卡尔积
 
 
+-- 外键声明
+create table class(
+    no int(10) primary key,
+    name varchar(255)
+);
+create table student(
+    no int(10) primary key auto_increment,
+    age int(10) not null,
+    name varchar(255) not null,
+    classno int(10),
+    foreign key(classno) references class(no) -- 声明外键
+);
+
+
+
+-- 开启事务
+start transaction;
+
+delete from vip; -- 删除表
+rollback; -- 回滚
+select * from vip; -- 开启事务后删除操作可回滚，表仍然存在
+
+delete from vip;
+commit;
+select * from vip; -- 开启事务后需手动提交生效，查询为空
